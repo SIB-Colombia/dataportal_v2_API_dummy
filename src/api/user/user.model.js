@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema({
   username: {
     type: String,
-   required: [true, 'Username is required.'],
+    required: [true, 'Username es requerido.'],
     unique: true
   },
   password: {
@@ -22,7 +22,7 @@ const UserSchema = new Schema({
   photo: String,
   provider: {
     type: String,
-   required: [true, 'Provider is required.'],
+    required: [true, 'Provider es requrido.'],
     default: 'local'
   },
   roles: {
@@ -32,7 +32,7 @@ const UserSchema = new Schema({
   status: {
     type: Number,
     default: 1,
-   required: [true, 'Status is required.']
+    required: [true, 'Status es requerido.']
   },
   date: {
     type: Date,
@@ -48,6 +48,7 @@ const UserSchema = new Schema({
 });
 
 UserSchema.plugin(mongoosePaginate);
+
 require('./user.methods').default(UserSchema);
 
 export default mongoose.model('User', UserSchema);

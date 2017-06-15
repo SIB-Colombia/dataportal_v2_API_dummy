@@ -1,0 +1,10 @@
+import express from 'express';
+import * as controller from './comment.controller';
+import * as auth from '../../lib/auth/middleware';
+
+const router = express.Router();
+
+router.get('/show/:id', controller.show);
+router.post('/create', auth.isAuthenticated(), controller.create);
+
+export default router;

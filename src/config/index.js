@@ -32,7 +32,7 @@ export default {
   database : { // DataBase
     mongo: { // MongoDb
       db: {
-        uri: `mongodb://localhost:27017/nodetomic-${mode}`, // [format-> mongodb://username:password@host:port/database?options]
+        uri: `mongodb://localhost:27017/catalogo_API-${mode}`, // [format-> mongodb://username:password@host:port/database?options]
         options: {
           db: {
             safe: true
@@ -104,8 +104,8 @@ export default {
       callbackURL: '/auth/google/callback'
     },
     github: {
-      clientID: '52be92c9a41f77a959eb',
-      clientSecret: '76c9bb03c689d098506822fa80dba372a1fe29c8',
+      clientID: '',
+      clientSecret: '',
       callbackURL: '/auth/github/callback'
     },
     bitbucket: {
