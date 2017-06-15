@@ -4,6 +4,6 @@ import * as auth from '../../lib/auth/middleware';
 
 const router = express.Router();
 
-router.post('/create', auth.isAuthenticated(), controller.create);
+router.post('/', auth.isAuthenticated(), controller.create);
 
 export default router;
