@@ -29,13 +29,13 @@ export function create(req, res) {
     create.lastname = req.body.lastname;
     create.email = req.body.email;
     if (req.body.password != req.body.verify)
-      return res.status(400).json({message: 'las contraseñas no son iguales.'});
+      return res.status(400).json({error: 'las contraseñas no son iguales.'});
 
     create.password = req.body.password;
     create.save().then(result => res.json({'created': true})).catch(err => res.status(500).json({error: err}))
 
   } else {
-    return res.status(400).json({message: 'Complente los campos correctamente'})
+    return res.status(400).json({error: 'Complente los campos correctamente'})
   }
 
 }
@@ -53,7 +53,7 @@ export function update(req, res) {
       user.lastname = req.body.lastname;
       if (req.body.password) {
         if (req.body.password != req.body.verify)
-          return res.status(400).json({message: 'las contraseñas no son iguales.'})
+          return res.status(400).json({error: 'las contraseñas no son iguales.'})
         user.password = req.body.password;
       }
 
@@ -78,7 +78,7 @@ export function updateByAdmin(req, res) {
       user.lastname = req.body.lastname;
       if (req.body.password) {
         if (req.body.password != req.body.verify)
-          return res.status(400).json({message: 'las contraseñas no son iguales.'})
+          return res.status(400).json({error: 'las contraseñas no son iguales.'})
         user.password = req.body.password;
       }
       if (req.body.roles.length > 0)
