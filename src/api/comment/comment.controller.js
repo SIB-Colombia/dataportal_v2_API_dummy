@@ -4,7 +4,9 @@ export function show(req, res) {
 
   let id = req.params.id;
 
-  Comment.find({fileId: id, isReply: false}).populate('postedBy', 'name lastname username photo').populate('replies').exec().then(comments => {
+  // Comment.find({fileId: id}).populate('postedBy', 'name lastname username photo').populate('replies').exec().then(comments => {
+  Comment.find({fileId: id}).populate('postedBy', 'name lastname username photo').exec().then(comments => {
+    // console.log(comments);
     return res.status(200).json(comments);
   }).catch(err => {
     return res.status(500).json(err);
