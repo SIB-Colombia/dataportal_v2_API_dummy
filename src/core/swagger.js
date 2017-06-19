@@ -4,10 +4,10 @@ import config from '../config';
 export default(app) => {
 
   if (config.swagger.enabled) {
+
     // swagger definition
     let swaggerDefinition = {
       info: config.swagger.info,
-      host: `${config.server.ip}:${config.server.port}`,
       basePath: '/',
       schemes: [
         'http', 'https'
@@ -19,12 +19,13 @@ export default(app) => {
         },
         "iss_a": {
           "type": "oauth2",
-          "authorizationUrl": `http://${config.server.ip}:${config.server.port}/auth/github`,
+          "authorizationUrl": `/auth/github`,
           "flow": "authorization_code",
           // "tokenUrl": "https://xxxxxxxxxxxx.xxx.co...",
         }
       }
     };
+    
     // options for the swagger docs
     let options = {
       // import swaggerDefinitions
@@ -32,8 +33,10 @@ export default(app) => {
       // path to the API docs
       apis: [`${config.base}/**/*.yaml`]
     };
+
     // initialize swagger-jsdoc
     let swaggerSpec = swaggerJSDoc(options);
+
     // serve swagger
     app.get('/swagger.json', function(req, res) {
       res.json(swaggerSpec);
