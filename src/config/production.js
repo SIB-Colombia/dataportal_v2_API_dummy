@@ -1,6 +1,6 @@
 // #config production
 const mode = 'production'; // development, production
-const project = 'nodetomic-api';
+const project = 'catalogo-api';
 
 import path from 'path';
 
@@ -11,7 +11,7 @@ export default {
   client : 'client', // Folder Client
   server : { // Server listen
     ip: 'localhost',
-    port: 8000
+    port: 9020
   },
   secret : `s3kr3t_$k3y_&5ess10n?%-${project}-${mode}`, // Secret key
   session : 'defaultStore', // defaultStore, mongoStore, redisStore / [Required for Twitter oAuth or sessions local...]

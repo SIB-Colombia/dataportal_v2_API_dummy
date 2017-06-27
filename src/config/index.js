@@ -1,6 +1,6 @@
 // #config development
 const mode = 'development'; // development, production
-const project = 'nodetomic-api';
+const project = 'catalogo-api';
 
 import path from 'path';
 
@@ -41,10 +41,10 @@ export default {
         seeds: [
           {
             model: 'User',
-            seed: 'alway' //once - alway - never
+            seed: 'once' //once - alway - never
           }, {
             model: 'Hello',
-            seed: 'alway'
+            seed: 'once'
           }
         ]
       }
