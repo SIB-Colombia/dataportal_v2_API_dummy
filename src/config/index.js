@@ -23,6 +23,10 @@ export default {
     {
       rol: 'user',
       time: 60 // minutes
+    },
+    {
+      rol: 'admin',
+      time: 1440 // minutes
     }
   ],
   router : {
