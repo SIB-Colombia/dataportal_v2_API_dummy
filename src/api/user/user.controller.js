@@ -2,9 +2,17 @@ import User from './user.model';
 
 export function list(req, res) {
 
-  User.find({}, {password: 0}).exec().then(users => {
-    res.json(users)
-  }).catch(err => res.status(500).json({error: err}));
+  // User.find({}, {password: 0}).exec().then(users => {
+  //   res.json(users)
+  // }).catch(err => res.status(500).json({error: err}));
+
+
+  User.paginate({},{select: '-password',page: parseInt(req.params.page), limit: parseInt(req.params.byPage) }).then(function(users) {
+    console.log(users);
+      res.json(users)
+  });
+
+
 
 }
 
@@ -35,7 +43,7 @@ export function create(req, res) {
     create.save().then(result => res.json({'created': true})).catch(err => res.status(500).json({error: err}))
 
   } else {
-    return res.status(400).json({error: 'Complente los campos correctamente'})
+    return res.status(400).json({error: 'Complete los campos correctamente'})
   }
 
 }
