@@ -4,7 +4,7 @@ import * as controller from './user.controller';
 
 const router = express.Router();
 
-router.get('/', auth.isAuthenticated(['admin']), controller.list);
+router.get('/:page/:byPage', auth.isAuthenticated(['admin']), controller.list);
 router.get('/me', auth.isAuthenticated(), controller.me);
 router.get('/:id', auth.isAuthenticated(), controller.read);
 router.delete('/:id', auth.isAuthenticated(['admin']), controller.remove);
