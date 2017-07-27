@@ -5,6 +5,26 @@ export function read(req, res) {
       "providerName": "Herbario Nacional Colombiano (COL)",
       "resourceCount": 9990999,
       "registryCount": 9990999
+    },
+    {
+      "providerName": "Herbario Nacional Colombiano (COL)",
+      "resourceCount": 9990999,
+      "registryCount": 9990999
+    },
+    {
+      "providerName": "Herbario Nacional Colombiano (COL)",
+      "resourceCount": 9990999,
+      "registryCount": 9990999
+    },
+    {
+      "providerName": "Herbario Nacional Colombiano (COL)",
+      "resourceCount": 9990999,
+      "registryCount": 9990999
+    },
+    {
+      "providerName": "Herbario Nacional Colombiano (COL)",
+      "resourceCount": 9990999,
+      "registryCount": 9990999
     }
   ]
 
