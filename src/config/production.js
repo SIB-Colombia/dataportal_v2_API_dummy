@@ -1,6 +1,6 @@
 // #config production
 const mode = 'production'; // development, production
-const project = 'catalogo-api';
+const project = 'portal-api';
 
 import path from 'path';
 
