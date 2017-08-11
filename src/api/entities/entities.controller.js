@@ -1,40 +1,64 @@
 export function read(req, res) {
   const jsonResponse = {
-    id: 1,
-    providerName: "Red Nacional de Observadores de Aves (RNOA)",
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. At vitae minima, debitis perferendis veritatis repellat similique quos iusto soluta facere, consequatur rem eius nemo aperiam rerum ab temporibus laboriosam ipsum.",
-    imageUrl: "/logo_entidad.png",
-    department: 'DEPARTAMENTO',
-    globalInfo: {
-      records: 546321,
-      datasets: 1800,
-      species: 5350,
-      georeferenced: 1800,
-    },
-    webLink: 'Sitio web del publicador',
-    principalContacts: {
-      endorcedBy: 'SiB Colombia',
-      installation: 'CCO 1.0',
-      administrativeContact: 'Gualberto Buitrago',
-      technicalContact: 'Gualberto Buitrago',
-    },
-    contacts: [
-      {
-        name: 'Martha Isabel Vallejo Joyas',
-        inf: [
-          'Orginator Metadata Author',
-          'Principal Investigador',
-          'Investigador principal',
-          'Calle 28 A No. 15-09',
-          'Bogotá, D.C',
-          'Bogotá, D.C',
-          'Colombia',
-          'martisavallejo@gmail.com',
-          '320-2767'
-        ]
+    eml: {
+      providerName: 'NOMBRE DEL PUBLICADOR',
+      dataset: {
+        keywordSet: {
+          keyword: 'providerName'
+        },
+        organization: {
+          description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis soluta quaerat, nisi, quibusdam velit cumque laboriosam corporis voluptates labore expedita reiciendis a adipisci quam saepe recusandae sapiente, voluptatem vero repudiandae.',
+          city: '*CIUDAD',
+          web_site: 'http://localhost/',
+          contacts: [
+            {
+              type: 'administrative',
+              name: 'Martha Isabel Vallejo Joyas',
+              inf: [
+                'Orginator Metadata Author',
+                'Principal Investigador',
+                'Investigador principal',
+                'Calle 28 A No. 15-09',
+                'Bogotá, D.C',
+                'Bogotá, D.C',
+                'Colombia',
+                'martisavallejo@gmail.com',
+                '320-2767',
+              ],
+            },
+            {
+              type: 'technical',
+              name: 'Martha Isabel Vallejo Joyas',
+              inf: [
+                'Orginator Metadata Author',
+                'Principal Investigador',
+                'Investigador principal',
+                'Calle 28 A No. 15-09',
+                'Bogotá, D.C',
+                'Bogotá, D.C',
+                'Colombia',
+                'martisavallejo@gmail.com',
+                '320-2767',
+              ],
+            }
+          ]
+        }
       },
-    ]
-
+      additionalMetadata: {
+        metadata: {
+          gbif: {
+            resourceLogoUrl: 'LOGO DE LA ORGANIZACIÓN'
+          }
+        }
+      },
+      occurrence: {
+        count: {
+          providerName: 'REGISTROS',
+          resourceName: 'RECURSOS',
+          scientificName: 'TAXONES',
+        }
+      }
+    }
   }
 
   return res.status(200).json(jsonResponse)
@@ -44,78 +68,70 @@ export function list(req, res) {
   const jsonResponse = [
     {
       id: 1,
-      providerName: "Red Nacional de Observadores de Aves (RNOA)",
-      description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. At vitae minima, debitis perferendis veritatis repellat similique quos iusto soluta facere, consequatur rem eius nemo aperiam rerum ab temporibus laboriosam ipsum.",
-      imageUrl: "/logo_entidad.png",
-      department: 'DEPARTAMENTO',
-      globalInfo: {
-        records: 546321,
-        datasets: 1800,
-        species: 5350,
-        georeferenced: 1800,
-      },
-      webLink: 'Sitio web del publicador',
-      principalContacts: {
-        endorcedBy: 'SiB Colombia',
-        installation: 'CCO 1.0',
-        administrativeContact: 'Gualberto Buitrago',
-        technicalContact: 'Gualberto Buitrago',
-      },
-      contacts: [
-        {
-          name: 'Martha Isabel Vallejo Joyas',
-          inf: [
-            'Orginator Metadata Author',
-            'Principal Investigador',
-            'Investigador principal',
-            'Calle 28 A No. 15-09',
-            'Bogotá, D.C',
-            'Bogotá, D.C',
-            'Colombia',
-            'martisavallejo@gmail.com',
-            '320-2767'
-          ]
+      eml: {
+        providerName: 'NOMBRE DEL PUBLICADOR',
+        dataset: {
+          keywordSet: {
+            keyword: 'providerName'
+          },
+          organization: {
+            description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae nobis repellat accusamus ea ipsa tempore veniam eligendi quae totam a sunt quisquam expedita sapiente, nisi error, atque, reprehenderit delectus. Animi!',
+            city: '*CIUDAD',
+            web_site: 'http://localhost/',
+            contacts: [
+              '*CONTACTO ADMINISTRATIVO',
+              '*CONTACTO TÉCNICO'
+            ]
+          }
         },
-      ]
-
+        additionalMetadata: {
+          metadata: {
+            gbif: {
+              resourceLogoUrl: 'LOGO DE LA ORGANIZACIÓN'
+            }
+          }
+        },
+        occurrence: {
+          count: {
+            providerName: 'REGISTROS',
+            resourceName: 'RECURSOS'
+          }
+        }
+      }
     },
     {
       id: 2,
-      providerName: "Red Nacional de Observadores de Aves (RNOA)",
-      description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. At vitae minima, debitis perferendis veritatis repellat similique quos iusto soluta facere, consequatur rem eius nemo aperiam rerum ab temporibus laboriosam ipsum.",
-      imageUrl: "/logo_entidad.png",
-      department: 'DEPARTAMENTO',
-      globalInfo: {
-        records: 546321,
-        datasets: 1800,
-        species: 5350,
-        georeferenced: 1800,
-      },
-      webLink: 'Sitio web del publicador',
-      principalContacts: {
-        endorcedBy: 'SiB Colombia',
-        installation: 'CCO 1.0',
-        administrativeContact: 'Gualberto Buitrago',
-        technicalContact: 'Gualberto Buitrago',
-      },
-      contacts: [
-        {
-          name: 'Martha Isabel Vallejo Joyas',
-          inf: [
-            'Orginator Metadata Author',
-            'Principal Investigador',
-            'Investigador principal',
-            'Calle 28 A No. 15-09',
-            'Bogotá, D.C',
-            'Bogotá, D.C',
-            'Colombia',
-            'martisavallejo@gmail.com',
-            '320-2767'
-          ]
+      eml: {
+        providerName: 'NOMBRE DEL PUBLICADOR',
+        dataset: {
+          keywordSet: {
+            keyword: 'providerName'
+          },
+          organization: {
+            description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum omnis at officia ratione, dolorum unde vitae beatae eaque optio itaque ipsum tenetur adipisci corporis molestiae doloribus veniam assumenda, accusamus excepturi.',
+            city: '*CIUDAD',
+            web_site: 'http://localhost/',
+            contacts: [
+              '*CONTACTO ADMINISTRATIVO',
+              '*CONTACTO TÉCNICO'
+            ]
+          }
         },
-      ]
-
-    },
+        additionalMetadata: {
+          metadata: {
+            gbif: {
+              resourceLogoUrl: 'LOGO DE LA ORGANIZACIÓN'
+            }
+          }
+        },
+        occurrence: {
+          count: {
+            providerName: 'REGISTROS',
+            resourceName: 'RECURSOS'
+          }
+        }
+      }
+    }
   ]
 
   return res.status(200).json(jsonResponse)
