@@ -47,15 +47,15 @@ export function read(req, res) {
       additionalMetadata: {
         metadata: {
           gbif: {
-            resourceLogoUrl: 'LOGO DE LA ORGANIZACIÓN'
+            resourceLogoUrl: 'logo_entidad.png'
           }
         }
       },
       occurrence: {
         count: {
-          providerName: 'REGISTROS',
-          resourceName: 'RECURSOS',
-          scientificName: 'TAXONES',
+          providerName: '1880',
+          resourceName: '5400',
+          scientificName: '3200',
         }
       }
     }
@@ -87,14 +87,14 @@ export function list(req, res) {
         additionalMetadata: {
           metadata: {
             gbif: {
-              resourceLogoUrl: 'LOGO DE LA ORGANIZACIÓN'
+              resourceLogoUrl: 'logo_entidad.png'
             }
           }
         },
         occurrence: {
           count: {
-            providerName: 'REGISTROS',
-            resourceName: 'RECURSOS'
+            providerName: '7000',
+            resourceName: '3000'
           }
         }
       }
@@ -120,14 +120,14 @@ export function list(req, res) {
         additionalMetadata: {
           metadata: {
             gbif: {
-              resourceLogoUrl: 'LOGO DE LA ORGANIZACIÓN'
+              resourceLogoUrl: 'logo_entidad.png'
             }
           }
         },
         occurrence: {
           count: {
-            providerName: 'REGISTROS',
-            resourceName: 'RECURSOS'
+            providerName: '1800',
+            resourceName: '6500'
           }
         }
       }
