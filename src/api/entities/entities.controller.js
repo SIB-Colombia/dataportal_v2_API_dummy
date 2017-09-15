@@ -87,11 +87,7 @@ export function list(req, res) {
         additionalMetadata: {
           metadata: {
             gbif: {
-<<<<<<< HEAD
               resourceLogoUrl: '/logo_entidad.png'
-=======
-              resourceLogoUrl: 'logo_entidad.png'
->>>>>>> 4f97f59738da99d68604aca155bf73c36f2e6d04
             }
           }
         },
@@ -124,22 +120,14 @@ export function list(req, res) {
         additionalMetadata: {
           metadata: {
             gbif: {
-<<<<<<< HEAD
               resourceLogoUrl: '/logo_entidad.png'
-=======
-              resourceLogoUrl: 'logo_entidad.png'
->>>>>>> 4f97f59738da99d68604aca155bf73c36f2e6d04
             }
           }
         },
         occurrence: {
           count: {
             providerName: '1800',
-<<<<<<< HEAD
             resourceName: '8100'
-=======
-            resourceName: '6500'
->>>>>>> 4f97f59738da99d68604aca155bf73c36f2e6d04
           }
         }
       }
