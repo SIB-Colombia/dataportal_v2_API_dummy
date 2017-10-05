@@ -1,4 +1,71 @@
+var http = require('http');
+var _ = require('lodash');
+
 export function read(req, res) {
+
+  console.log(req.params.id);
+  http.get('http://190.158.236.194:5000/api/v1.5/provider?providerId=3', function(response) {
+   // Continuously update stream with data
+        var body = '';
+        response.on('data', function(d) {
+            body += d;
+        });
+        response.on('end', function() {
+
+            // Data reception is done, do whatever with it!
+            var parsed = JSON.parse(body)
+
+            var h = parsed.response.hits.hits[0]
+            var r = {
+              eml: {
+                providerName: h._source.provider.name,
+                dataset: {
+                  keywordSet: {
+                    keyword: 'providerName'
+                  },
+                  organization: {
+                    description: h._source.provider.description,
+                    city: h._source.provider.city,
+                    web_site: h._source.provider.website_url,
+                    contacts: [
+                      {
+                        type: '',
+                        name: '',
+                        inf: [
+                          h._source.provider.email,
+                        ],
+                      },
+                      {
+                        type: '',
+                        name: '',
+                        inf: [
+                          h._source.provider.email,
+                        ],
+                      },
+                    ]
+                  }
+                },
+                additionalMetadata: {
+                  metadata: {
+                    gbif: {
+                      resourceLogoUrl: h._source.resource.logo_url
+                    }
+                  }
+                },
+                occurrence: {
+                  count: {
+                    providerName: '-1',
+                    resourceName: '-1',
+                    scientificName: '-1',
+                  }
+                }
+              }
+            }
+            console.log(r)
+            return res.status(200).json(r)
+        });
+  })
+/*
   const jsonResponse = {
     eml: {
       providerName: 'NOMBRE DEL PUBLICADOR',
@@ -62,9 +129,67 @@ export function read(req, res) {
   }
 
   return res.status(200).json(jsonResponse)
+*/
 }
 
 export function list(req, res) {
+
+  
+  http.get('http://190.158.236.194:5000/api/v1.5/provider', function(response) {
+   // Continuously update stream with data
+        var body = '';
+        response.on('data', function(d) {
+            body += d;
+        });
+        response.on('end', function() {
+
+            // Data reception is done, do whatever with it!
+            var parsed = JSON.parse(body)
+            //console.log(parsed.response.hits)
+            var r = _.map(parsed.response.hits.hits, function(h){
+              return {
+                  id: h._source.provider.id,
+                  eml: {
+                    providerName: h._source.provider.name,
+                    dataset: {
+                      keywordSet: {
+                        keyword: 'providerName'
+                      },
+                      organization: {
+                        description: h._source.provider.description,
+                        city: h._source.provider.city,
+                        web_site: h._source.provider.website_url,
+                        contacts: [
+                          h._source.provider.email
+                        ]
+                      }
+                    },
+                    additionalMetadata: {
+                      metadata: {
+                        gbif: {
+                          resourceLogoUrl: h._source.resource.logo_url
+                        }
+                      }
+                    },
+                    occurrence: {
+                      count: {
+                        providerName: '-1',
+                        resourceName: '-1'
+                      }
+                    }
+                  }
+                }
+            })
+            
+            console.log("Antes de retornar")
+            console.log(r)
+            
+            return res.status(200).json(r)
+        });
+  })
+
+/*
+
   const jsonResponse = [
     {
       id: 1,
@@ -135,4 +260,5 @@ export function list(req, res) {
   ]
 
   return res.status(200).json(jsonResponse)
+  */
 }
