@@ -1,3 +1,7 @@
+var http = require('http');
+var _ = require('lodash');
+var parseString = require('xml2js').parseString;
+
 export function list(req, res) {
 
   var jsonResponse = [
@@ -33,117 +37,176 @@ export function list(req, res) {
 
 export function read(req, res) {
 
-  var jsonResponse = {
-    eml: {
-      resourceName: 'NOMBRE DEL RECURSO',
-      providerName: 'PUBLICADO POR',
+  console.log(req.params);
 
-      contacts: [
-        {
-          name: 'Martha Isabel Vallejo Joyas',
-          inf: [
-            'Orginator Metadata Author',
-            'Principal Investigador',
-            'Investigador principal',
-            'Calle 28 A No. 15-09',
-            'Bogotá, D.C',
-            'Bogotá, D.C',
-            'Colombia',
-            'martisavallejo@gmail.com',
-            '320-2767',
-          ],
-        },
-      ],
+  try {
 
-      dataset: {
-        abstract: {
-          para: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut voluptate nemo possimus fuga vero omnis blanditiis ducimus atque animi placeat, quidem ipsam explicabo dicta neque magni odio voluptas sed inventore.',
-        },
-        associatedParty: {
-          pubDate: '10/08/2017',
-        },
-        purpose: {
-          para: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet provident ea quidem, molestias facere, doloremque ut veniam nulla accusantium quae eius debitis quo sit ipsum molestiae rem magni modi, amet.',
-        },
-        intellectualRights: {
-          ulink_url: {
-            citetitle: 'by',
+    console.log("consultando: ", 'http://ipt.biodiversidad.co/'+req.params.base+'/eml.do?r='+req.params.id);
+    http.get('http://ipt.biodiversidad.co/'+req.params.base+'/eml.do?r='+req.params.id, function(response) {
+      var body = '';
+      response.on('data', function(d) {
+          body += d;
+      });
+      response.on('end', function() {
+        console.log(body);
+        parseString(body, function (err, result) {
+        
+          if(err){
+            console.log(err);
+            console.log("Error: ", err);
+            return res.status(500).json(err);
+          }
+          
+          var fs = require('fs');
+          fs.writeFile('test.json', JSON.stringify(result, null, 4));
+          
+          console.log(result);
+          var jsonResponse = {
+            eml: result["eml:eml"],
+          }
+          jsonResponse.eml.resourceName = 'NOMBRE DEL RECURSO';
+          jsonResponse.eml.providerName = 'PUBLICADO POR';
+          jsonResponse.eml.contacts = [
+              {
+                name: 'Martha Isabel Vallejo Joyas',
+                inf: [
+                  'Orginator Metadata Author',
+                  'Principal Investigador',
+                  'Investigador principal',
+                  'Calle 28 A No. 15-09',
+                  'Bogotá, D.C',
+                  'Bogotá, D.C',
+                  'Colombia',
+                  'martisavallejo@gmail.com',
+                  '320-2767',
+                ],
+              },
+            ];
+          return res.status(200).json(jsonResponse);
+
+          
+          
+        });
+
+      })   
+    });
+  }catch(err){
+    console.log("Error: ", err);
+    return res.status(500).json(err);
+  }
+}
+        
+       /* 
+      
+    var jsonResponse = {
+      eml: {
+        resourceName: 'NOMBRE DEL RECURSO',
+        providerName: 'PUBLICADO POR',
+
+        contacts: [
+          {
+            name: 'Martha Isabel Vallejo Joyas',
+            inf: [
+              'Orginator Metadata Author',
+              'Principal Investigador',
+              'Investigador principal',
+              'Calle 28 A No. 15-09',
+              'Bogotá, D.C',
+              'Bogotá, D.C',
+              'Colombia',
+              'martisavallejo@gmail.com',
+              '320-2767',
+            ],
           },
-        },
-        coverage: {
-          temporalCoverage: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam praesentium, sapiente. Qui molestias earum eum assumenda a pariatur quia laborum, similique sit quo harum, itaque! Suscipit ad vel ut consequuntur.',
-          geographicCoverage: {
-            geographicDescription: '*COBERTURA GEOGRÁFICA',
-            boundingCoordinates: '*COBERTURA GEOGRÁFICA',
+        ],
+
+        dataset: {
+          abstract: {
+            para: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut voluptate nemo possimus fuga vero omnis blanditiis ducimus atque animi placeat, quidem ipsam explicabo dicta neque magni odio voluptas sed inventore.',
           },
-          taxonomicCoverage: {
-            generalTaxonomicCoverage: '*COBERTURA TAXONÓMICA',
+          associatedParty: {
+            pubDate: '10/08/2017',
           },
-        },
-        methods: {
-          sampling: {
-            studyExtent: {
-              description: {
-                para: '*METODOLOGÍA_Área de estudio',
+          purpose: {
+            para: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet provident ea quidem, molestias facere, doloremque ut veniam nulla accusantium quae eius debitis quo sit ipsum molestiae rem magni modi, amet.',
+          },
+          intellectualRights: {
+            ulink_url: {
+              citetitle: 'by',
+            },
+          },
+          coverage: {
+            temporalCoverage: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam praesentium, sapiente. Qui molestias earum eum assumenda a pariatur quia laborum, similique sit quo harum, itaque! Suscipit ad vel ut consequuntur.',
+            geographicCoverage: {
+              geographicDescription: '*COBERTURA GEOGRÁFICA',
+              boundingCoordinates: '*COBERTURA GEOGRÁFICA',
+            },
+            taxonomicCoverage: {
+              generalTaxonomicCoverage: '*COBERTURA TAXONÓMICA',
+            },
+          },
+          methods: {
+            sampling: {
+              studyExtent: {
+                description: {
+                  para: '*METODOLOGÍA_Área de estudio',
+                },
+              },
+              samplingDescription: {
+                para: '*METODOLOGÍA_Descripción del muestreo',
               },
             },
-            samplingDescription: {
-              para: '*METODOLOGÍA_Descripción del muestreo',
+            qualityControl: {
+              description: {
+                para: '*METODOLOGÍA_Control de calidad',
+              },
+            },
+            methodStep: {
+              description: {
+                para: '*METODOLOGÍA_Metodología paso a paso',
+              },
             },
           },
-          qualityControl: {
-            description: {
-              para: '*METODOLOGÍA_Control de calidad',
-            },
-          },
-          methodStep: {
-            description: {
-              para: '*METODOLOGÍA_Metodología paso a paso',
+          alternateIdentifier: 'doi:10.15472/ch49b6'
+        },
+        associatedParty: '*PARTES ASOCIADAS',
+        additionalMetadata: {
+          metadata: {
+            gbif: {
+              citation_identifier: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit voluptates neque, sapiente nisi necessitatibus voluptate ullam rerum minus repellat impedit accusamus earum quasi in deleniti aut minima adipisci. Magni, ex.',
+              bibliography: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab beatae unde repudiandae voluptas vitae minus impedit accusantium officia eaque, esse excepturi laborum blanditiis nihil, laudantium dignissimos rerum voluptatem, culpa adipisci.',
             },
           },
         },
-        alternateIdentifier: 'doi:10.15472/ch49b6'
       },
-      associatedParty: '*PARTES ASOCIADAS',
-      additionalMetadata: {
-        metadata: {
-          gbif: {
-            citation_identifier: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit voluptates neque, sapiente nisi necessitatibus voluptate ullam rerum minus repellat impedit accusamus earum quasi in deleniti aut minima adipisci. Magni, ex.',
-            bibliography: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab beatae unde repudiandae voluptas vitae minus impedit accusantium officia eaque, esse excepturi laborum blanditiis nihil, laudantium dignissimos rerum voluptatem, culpa adipisci.',
-          },
-        },
-      },
-    },
-  }
+    }
 
-  const proyecto = {
-    eml: {
-      dataset: {
-        project: {
-          title: 'TÍTULO',
-          studyAreaDescription: {
-            descriptor_name: {
-              citableClassificationSystem: {
-                descriptorValue: '*ÁREA DE ESTUDIO'
+    const proyecto = {
+      eml: {
+        dataset: {
+          project: {
+            title: 'TÍTULO',
+            studyAreaDescription: {
+              descriptor_name: {
+                citableClassificationSystem: {
+                  descriptorValue: '*ÁREA DE ESTUDIO'
+                }
               }
-            }
+            },
+            designDescription: {
+              description: {
+                para: '*DESCRIPCIÓN DEL DISEÑO'
+              }
+            },
+            personnel: '*PARTES ASOCIADAS AL PROYECTO'
           },
-          designDescription: {
-            description: {
-              para: '*DESCRIPCIÓN DEL DISEÑO'
-            }
+          abstract: {
+            para: 'DESCRIPCIÓN'
           },
-          personnel: '*PARTES ASOCIADAS AL PROYECTO'
-        },
-        abstract: {
-          para: 'DESCRIPCIÓN'
-        },
-        founding: {
-          para: 'FUENTES DE FINANCIACIÓN'
+          founding: {
+            para: 'FUENTES DE FINANCIACIÓN'
+          }
         }
       }
     }
-  }
-
-  return res.status(200).json(jsonResponse);
-}
+  */
