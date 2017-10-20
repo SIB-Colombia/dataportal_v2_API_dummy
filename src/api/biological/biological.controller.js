@@ -64,7 +64,7 @@ json.collectionCode": "ORN"
           
           const jsonResponse = {
             dataset: jsonDataset,
-            occurrence: {
+            occurrence: json,/*{
               occurrenceID: json.key,
               catalogNumber: json.datasetKey,
               occurrenceRemarks: 'XX Comentarios del registro biológico',
@@ -151,8 +151,8 @@ json.collectionCode": "ORN"
               verbatimLongitude: '-74.0665862',
               verbatimCoordinateSystem: 'XX Sistema original de coordenadas',
               verbatimSRS: 'XX SRS original',
-              decimalLatitude: '4.6138575',
-              decimalLongitude: '-74.0665862',
+              decimalLatitude: json.decimalLatitude,
+              decimalLongitude: json.decimalLongitude,
               geodeticDatum: 'XX Datum geodésico',
               coordinateUncertaintyInMeters: 'XX Incertidumbre de las coordenadas en metros',
               coordinatePrecision: 'XX Precisión de las coordenadas',
@@ -193,7 +193,7 @@ json.collectionCode": "ORN"
               subgenus: json.subgenus,
               specificEpithet: json.specificEpithet,
               infraspecificEpithet: json.infraspecificEpithet,
-              taxonRank: 'XX Categoría del taxón',
+              taxonRank: json.taxonRank,
               verbatimTaxonRank: 'XX Categoría original del taxón',
               scientificNameAuthorship: 'XX Autoría del nombre científico',
               vernacularName: 'XX Nombre común',
@@ -237,6 +237,7 @@ json.collectionCode": "ORN"
               member: 'XX Miembro',
               bed: 'XX Capa',
             },
+            */
             measurementOrFact: {
               measurementID: 'XX Identificador',
               measurementType: 'XX Tipo',
