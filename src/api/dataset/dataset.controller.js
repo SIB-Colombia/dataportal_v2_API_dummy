@@ -4,34 +4,48 @@ var parseString = require('xml2js').parseString;
 
 export function list(req, res) {
 
-  var jsonResponse = [
-    {
-      "resourceId": 1,
-      "resourceName": "EOD - eBird Observation Dataset",
-      "providerName": "Cornell Lab of Ornithology",
-      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem hic eligendi inventore labore ad aliquam sed, id, tempore eveniet natus. Necessitatibus suscipit veritatis reiciendis inventore, in sint aut porro perferendis.',
-      "collectionName": "",
-      "institutionCode": "",
-      location: 'CIUDAD',
-      "count": 275718645,
-      imageUrl: "/logo_entidad.png",
-      type: 'ocurrencce dataset'
-    },
-    {
-      "resourceId": 2,
-      "resourceName": "EOD - eBird Observation Dataset",
-      "providerName": "Cornell Lab of Ornithology",
-      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem hic eligendi inventore labore ad aliquam sed, id, tempore eveniet natus. Necessitatibus suscipit veritatis reiciendis inventore, in sint aut porro perferendis.',
-      "collectionName": "",
-      "institutionCode": "",
-      location: 'CIUDAD',
-      "count": 275718645,
-      imageUrl: "/logo_entidad.png",
-      type: 'ocurrencce dataset'
-    }
-  ]
+  http.get('http://api.gbif.org/v1/dataset/search?publishingCountry=CO&'+req.params.parametros, function(response) {
+    var body = '';
+    response.on('data', function(d) {
+        body += d;
+    });
+    response.on('end', function() {
+      //console.log("La respuesta es ", body);
+      var json = JSON.parse(body);
+      console.log(json);
+      return res.status(200).json(json);
+/*
+      var jsonResponse = [
+        {
+          "resourceId": 1,
+          "resourceName": "EOD - eBird Observation Dataset",
+          "providerName": "Cornell Lab of Ornithology",
+          description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem hic eligendi inventore labore ad aliquam sed, id, tempore eveniet natus. Necessitatibus suscipit veritatis reiciendis inventore, in sint aut porro perferendis.',
+          "collectionName": "",
+          "institutionCode": "",
+          location: 'CIUDAD',
+          "count": 275718645,
+          imageUrl: "/logo_entidad.png",
+          type: 'ocurrencce dataset'
+        },
+        {
+          "resourceId": 2,
+          "resourceName": "EOD - eBird Observation Dataset",
+          "providerName": "Cornell Lab of Ornithology",
+          description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem hic eligendi inventore labore ad aliquam sed, id, tempore eveniet natus. Necessitatibus suscipit veritatis reiciendis inventore, in sint aut porro perferendis.',
+          "collectionName": "",
+          "institutionCode": "",
+          location: 'CIUDAD',
+          "count": 275718645,
+          imageUrl: "/logo_entidad.png",
+          type: 'ocurrencce dataset'
+        }
+      ]
 
-  return res.status(200).json(jsonResponse);
+      return res.status(200).json(jsonResponse);
+      */
+    });
+  });
 
 }
 
@@ -39,61 +53,29 @@ export function read(req, res) {
 
   console.log(req.params);
 
-  try {
-
-    console.log("consultando: ", 'http://ipt.biodiversidad.co/'+req.params.base+'/eml.do?r='+req.params.id);
-    http.get('http://ipt.biodiversidad.co/'+req.params.base+'/eml.do?r='+req.params.id, function(response) {
-      var body = '';
-      response.on('data', function(d) {
-          body += d;
-      });
-      response.on('end', function() {
-        console.log(body);
-        parseString(body, function (err, result) {
-        
-          if(err){
-            console.log(err);
-            console.log("Error: ", err);
-            return res.status(500).json(err);
-          }
-          
-          var fs = require('fs');
-          fs.writeFile('test.json', JSON.stringify(result, null, 4));
-          
-          console.log(result);
-          var jsonResponse = {
-            eml: result["eml:eml"],
-          }
-          jsonResponse.eml.resourceName = 'NOMBRE DEL RECURSO';
-          jsonResponse.eml.providerName = 'PUBLICADO POR';
-          jsonResponse.eml.contacts = [
-              {
-                name: 'Martha Isabel Vallejo Joyas',
-                inf: [
-                  'Orginator Metadata Author',
-                  'Principal Investigador',
-                  'Investigador principal',
-                  'Calle 28 A No. 15-09',
-                  'Bogotá, D.C',
-                  'Bogotá, D.C',
-                  'Colombia',
-                  'martisavallejo@gmail.com',
-                  '320-2767',
-                ],
-              },
-            ];
-          return res.status(200).json(jsonResponse);
-
-          
-          
-        });
-
-      })   
+  http.get('http://api.gbif.org/v1/dataset/'+req.params.id, function(response) {
+    var body = '';
+    response.on('data', function(d) {
+        body += d;
     });
-  }catch(err){
-    console.log("Error: ", err);
-    return res.status(500).json(err);
-  }
+    response.on('end', function() {
+      console.log(body);
+      var json = JSON.parse(body);
+      http.get('http://api.gbif.org/v1/organization/'+json.publishingOrganizationKey, function(response2) {
+        var body2 = '';
+        response2.on('data', function(d2) {
+            body2 += d2;
+        });
+        response2.on('end', function() {
+          console.log(body2);
+          var json2 = JSON.parse(body2);
+          json.publishingOrganization = json2;
+          console.log(json);
+          return res.status(200).json(json);
+        })   
+      });
+    })   
+  });
 }
         
        /* 
