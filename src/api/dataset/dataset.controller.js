@@ -3,8 +3,7 @@ var _ = require('lodash');
 var parseString = require('xml2js').parseString;
 
 export function list(req, res) {
-
-  http.get('http://api.gbif.org/v1/dataset/search?publishingCountry=CO&'+req.params.parametros, function(response) {
+  http.get('http://api.gbif.org/v1/dataset/search?publishingCountry=CO&limit=5&'+req.params.parametros, function(response) {
     var body = '';
     response.on('data', function(d) {
         body += d;
@@ -72,14 +71,14 @@ export function read(req, res) {
           json.publishingOrganization = json2;
           console.log(json);
           return res.status(200).json(json);
-        })   
+        })
       });
-    })   
+    })
   });
 }
-        
-       /* 
-      
+
+       /*
+
     var jsonResponse = {
       eml: {
         resourceName: 'NOMBRE DEL RECURSO',

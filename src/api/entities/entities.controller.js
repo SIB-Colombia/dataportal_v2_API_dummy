@@ -134,7 +134,7 @@ export function read(req, res) {
 
 export function list(req, res) {
 
-  
+
   http.get('http://190.158.236.194:5000/api/v1.5/provider', function(response) {
    // Continuously update stream with data
         var body = '';
@@ -180,10 +180,10 @@ export function list(req, res) {
                   }
                 }
             })
-            
+
             console.log("Antes de retornar")
             console.log(r)
-            
+
             return res.status(200).json(r)
         });
   })
