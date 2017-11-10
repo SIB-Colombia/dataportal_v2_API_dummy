@@ -136,7 +136,6 @@ export function read(req, res) {
 
 export function list(req, res) {
 
-  
   http.get('http://api.gbif.org/v1/organization?country=CO', function(response) {
    // Continuously update stream with data
         var body = '';
@@ -147,6 +146,7 @@ export function list(req, res) {
 
             // Data reception is done, do whatever with it!
             var r = JSON.parse(body)
+            return res.status(200).json(r)
             //console.log(parsed.response.hits)
             /*
             var r = _.map(parsed.response.hits.hits, function(h){
@@ -183,12 +183,10 @@ export function list(req, res) {
                   }
                 }
             })
-            
+
             console.log("Antes de retornar")
             console.log(r)
             */
-            
-            return res.status(200).json(r)
         });
   })
 

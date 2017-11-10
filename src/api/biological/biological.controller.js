@@ -1,5 +1,19 @@
 var http = require('http');
 
+export function list(req, res) {
+  http.get('http://www.gbif.org/api/occurrence/search?country=CO&limit=5', (response) => {
+    let body = '';
+    response.on('data', (d) => {
+      body += d
+    });
+    response.on('end', () => {
+      const json = JSON.parse(body);
+console.log(json)
+      return res.status(200).json({ results:json });
+    });
+  });
+}
+
 export function read(req, res) {
 
   console.log("El id es: ", req.params.id);
@@ -11,8 +25,8 @@ export function read(req, res) {
     response.on('end', function() {
       //console.log("La respuesta es ", body);
       var json = JSON.parse(body);
-      
-      
+
+
       http.get('http://api.gbif.org/v1/dataset/'+json.datasetKey, function(response2) {
         var body2 = '';
         response2.on('data', function(d) {
@@ -21,7 +35,7 @@ export function read(req, res) {
         response2.on('end', function() {
           var jsonDataset = JSON.parse(body2);
 
-      
+
           console.log(JSON.stringify(json, null, 2));
           console.log(JSON.stringify(jsonDataset, null, 2));
 /*
@@ -60,8 +74,8 @@ json.locality": "RAMIREZ",
 json.gbifID": "215569465",
 json.collectionCode": "ORN"
 */
-          
-          
+
+
           const jsonResponse = {
             dataset: jsonDataset,
             occurrence: json,/*{
@@ -279,9 +293,9 @@ json.collectionCode": "ORN"
 
           return res.status(200).json({results:jsonResponse});
 
-        });   
+        });
       });
-    })   
+    })
   });
 
 
