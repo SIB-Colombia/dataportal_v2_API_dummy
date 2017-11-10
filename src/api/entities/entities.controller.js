@@ -4,7 +4,7 @@ var _ = require('lodash');
 export function read(req, res) {
 
   console.log(req.params.id);
-  http.get('http://190.158.236.194:5000/api/v1.5/provider?providerId=3', function(response) {
+  http.get('http://api.gbif.org/v1/organization/'+req.params.id, function(response) {
    // Continuously update stream with data
         var body = '';
         response.on('data', function(d) {
@@ -13,8 +13,9 @@ export function read(req, res) {
         response.on('end', function() {
 
             // Data reception is done, do whatever with it!
-            var parsed = JSON.parse(body)
-
+            var r = JSON.parse(body)
+            return res.status(200).json(r)
+            /*
             var h = parsed.response.hits.hits[0]
             var r = {
               eml: {
@@ -63,6 +64,7 @@ export function read(req, res) {
             }
             console.log(r)
             return res.status(200).json(r)
+            */
         });
   })
 /*
@@ -135,7 +137,7 @@ export function read(req, res) {
 export function list(req, res) {
 
   
-  http.get('http://190.158.236.194:5000/api/v1.5/provider', function(response) {
+  http.get('http://api.gbif.org/v1/organization?country=CO', function(response) {
    // Continuously update stream with data
         var body = '';
         response.on('data', function(d) {
@@ -144,8 +146,9 @@ export function list(req, res) {
         response.on('end', function() {
 
             // Data reception is done, do whatever with it!
-            var parsed = JSON.parse(body)
+            var r = JSON.parse(body)
             //console.log(parsed.response.hits)
+            /*
             var r = _.map(parsed.response.hits.hits, function(h){
               return {
                   id: h._source.provider.id,
@@ -183,6 +186,7 @@ export function list(req, res) {
             
             console.log("Antes de retornar")
             console.log(r)
+            */
             
             return res.status(200).json(r)
         });
