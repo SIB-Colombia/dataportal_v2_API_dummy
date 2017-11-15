@@ -8,7 +8,7 @@ export function list(req, res) {
     });
     response.on('end', () => {
       const json = JSON.parse(body);
-console.log(json)
+//console.log(json)
       return res.status(200).json({ results:json });
     });
   });
@@ -16,7 +16,7 @@ console.log(json)
 
 export function read(req, res) {
 
-  console.log("El id es: ", req.params.id);
+  //console.log("El id es: ", req.params.id);
   http.get('http://api.gbif.org/v1/occurrence/'+req.params.id, function(response) {
     var body = '';
     response.on('data', function(d) {
@@ -36,8 +36,8 @@ export function read(req, res) {
           var jsonDataset = JSON.parse(body2);
 
 
-          console.log(JSON.stringify(json, null, 2));
-          console.log(JSON.stringify(jsonDataset, null, 2));
+          //console.log(JSON.stringify(json, null, 2));
+          //console.log(JSON.stringify(jsonDataset, null, 2));
 /*
 
 json.publishingOrgKey": "f9b67ad0-9c9b-11d9-b9db-b8a03c50a862",

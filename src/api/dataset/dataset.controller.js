@@ -3,7 +3,7 @@ var _ = require('lodash');
 var parseString = require('xml2js').parseString;
 
 export function list(req, res) {
-  http.get('http://api.gbif.org/v1/dataset/search?publishingCountry=CO&limit=5&'+req.params.parametros, function(response) {
+  http.get('http://api.gbif.org/v1/dataset/search?publishingCountry=CO&offset='+req.params.offset, function(response) {
     var body = '';
     response.on('data', function(d) {
         body += d;
@@ -11,7 +11,7 @@ export function list(req, res) {
     response.on('end', function() {
       //console.log("La respuesta es ", body);
       var json = JSON.parse(body);
-      console.log(json);
+      //console.log(json);
       return res.status(200).json(json);
 /*
       var jsonResponse = [
@@ -50,7 +50,7 @@ export function list(req, res) {
 
 export function read(req, res) {
 
-  console.log(req.params);
+  //console.log(req.params);
 
   http.get('http://api.gbif.org/v1/dataset/'+req.params.id, function(response) {
     var body = '';
@@ -58,7 +58,7 @@ export function read(req, res) {
         body += d;
     });
     response.on('end', function() {
-      console.log(body);
+      //console.log(body);
       var json = JSON.parse(body);
       http.get('http://api.gbif.org/v1/organization/'+json.publishingOrganizationKey, function(response2) {
         var body2 = '';
@@ -66,10 +66,10 @@ export function read(req, res) {
             body2 += d2;
         });
         response2.on('end', function() {
-          console.log(body2);
+          //console.log(body2);
           var json2 = JSON.parse(body2);
           json.publishingOrganization = json2;
-          console.log(json);
+          //console.log(json);
           return res.status(200).json(json);
         })
       });
