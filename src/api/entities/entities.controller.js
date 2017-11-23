@@ -136,7 +136,7 @@ export function read(req, res) {
 
 export function list(req, res) {
 
-  http.get('http://api.gbif.org/v1/organization?country=CO', function(response) {
+  http.get('http://api.gbif.org/v1/organization?country=CO&offset='+req.params.offset, function(response) {
    // Continuously update stream with data
         var body = '';
         response.on('data', function(d) {
