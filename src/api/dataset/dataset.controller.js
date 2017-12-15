@@ -3,7 +3,11 @@ var _ = require('lodash');
 var parseString = require('xml2js').parseString;
 
 export function list(req, res) {
-  http.get('http://api.gbif.org/v1/dataset/search?publishingCountry=CO&offset='+req.params.offset, function(response) {
+  let type=""
+  if (req.params.type && req.params.type!=="" && req.params.type!=="ALL"){
+    type='&type='+req.params.type;
+  }
+  http.get('http://api.gbif.org/v1/dataset/search?publishingCountry=CO&offset='+req.params.offset+type, function(response) {
     var body = '';
     response.on('data', function(d) {
         body += d;
