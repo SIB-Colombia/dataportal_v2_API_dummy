@@ -7,7 +7,14 @@ export function list(req, res) {
   if (req.params.type && req.params.type!=="" && req.params.type!=="ALL"){
     type='&type='+req.params.type;
   }
-  http.get('http://api.gbif.org/v1/dataset/search?publishingCountry=CO&offset='+req.params.offset+type, function(response) {
+  
+  let qs = req.url.split('?');
+  let q = "";
+  if(qs[1]){
+    q = qs[1];
+  }
+  let consulta = 'http://api.gbif.org/v1/dataset/search?publishingCountry=CO&offset='+req.params.offset+type+"&"+q;
+  http.get(consulta, function(response) {
     var body = '';
     response.on('data', function(d) {
         body += d;
