@@ -1,4 +1,5 @@
 var http = require('http');
+var https = require('https');
 
 export function list(req, res) {
   http.get('http://www.gbif.org/api/occurrence/search?country=CO&limit=5', (response) => {
@@ -95,3 +96,44 @@ export function read(req, res) {
   });
 
 }
+
+
+
+export function filters(req, res) {
+  let url = "https://www.gbif.org/api/occurrence/search?advanced=false&"+
+/*
+BasisOfRecord
+License
+Location
+ProviderName
+ResourceName
+TaxonRank
+*/
+      "facet=basis_of_record&"+
+      "facet=month&"+
+      "facet=dataset_key&"+
+      "facet=institution_code&"+
+      "facet=media_type&"+
+      "facet=stateProvince&"+
+      "facet=license&"+
+      "facet=publishing_org&"+
+      "month.facetLimit=12&"+
+      "publishingCountry=CO&"+
+      "limit=0";
+
+  console.log(url)
+
+  https.get(url, (response) => {
+    let body = '';
+    response.on('data', (d) => {
+      body += d
+    });
+    response.on('end', () => {
+      const json = JSON.parse(body);
+      //console.log(json)
+      return res.status(200).json(json.facets);
+    });
+  });
+}
+
+
