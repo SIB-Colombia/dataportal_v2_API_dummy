@@ -3,6 +3,6 @@ import * as controller from './statitics.controller';
 
 const router = express.Router();
 
-router.get('/occurrence/search', controller.read)
+router.get('/general/:id/:param', controller.general)
 
 export default router;
