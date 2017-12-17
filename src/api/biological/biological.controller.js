@@ -114,9 +114,10 @@ TaxonRank
       "facet=dataset_key&"+
       "facet=institution_code&"+
       "facet=media_type&"+
-      "facet=stateProvince&"+
+      "facet=state_province&"+
       "facet=license&"+
       "facet=publishing_org&"+
+      "facet=taxon_rank&"+
       "month.facetLimit=12&"+
       "publishingCountry=CO&"+
       "limit=0";
