@@ -2,7 +2,7 @@ var http = require('http');
 var https = require('https');
 
 export function list(req, res) {
-  http.get('http://www.gbif.org/api/occurrence/search?country=CO&limit=5', (response) => {
+  http.get('http://www.gbif.org/api/occurrence/search?publishing_country=CO&limit=5', (response) => {
     let body = '';
     response.on('data', (d) => {
       body += d
