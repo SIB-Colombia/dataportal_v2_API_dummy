@@ -1,0 +1,128 @@
+definitions:
+  Static:
+    properties:
+      ancla:
+        type: "string"
+      titulo:
+        type: "string"
+      contenido:
+        type: "string"
+/api/static:
+  # list
+  get:
+    tags:
+      - "Static"
+    description: "Returns list of Statics"
+    produces:
+      - "application/json"
+    responses:
+      200:
+        description: "An array of Static"
+        schema:
+          type: "array"
+          items:
+            $ref: "#/definitions/Static"
+      401:
+        description: "Error Unauthorized"
+    security:
+      - Bearer: []
+  # create
+  post:
+    tags:
+      - "Static"
+    description: "Creates a new Static"
+    produces:
+      - "application/json"
+    parameters:
+      - in: "body"
+        name: "body"
+        description: "Create new Static"
+        required: true
+        schema:
+          $ref: "#/definitions/Static"
+    responses:
+      200:
+        description: "Result"
+  # update
+  put:
+    tags:
+      - "Static"
+    description: "update a single Static"
+    produces:
+      - "application/json"
+    parameters:
+      - in: "body"
+        name: "body"
+        description: "Fields for the Static resource"
+        schema:
+          type: "array"
+          $ref: "#/definitions/Static"
+    responses:
+      200:
+        description: "Result Operation"
+    security:
+      - Bearer: []
+/api/static/{id}:
+  # read
+  get:
+    tags:
+      - "Static"
+    description: "Returns a single Static"
+    produces:
+      - "application/json"
+    parameters:
+      - name: "id"
+        description: "Static's id"
+        in: "path"
+        required: true
+        type: "string"
+    responses:
+      200:
+        description: "A single Static"
+        schema:
+          $ref: "#/definitions/Static"
+    security:
+      - Bearer: []
+  # remove
+  delete:
+    tags:
+      - "Static"
+    description: "Deletes a single Static"
+    produces:
+      - "application/json"
+    parameters:
+      - name: "id"
+        description: "Static's id"
+        in: "path"
+        required: true
+        type: "string"
+    responses:
+      200:
+        description: "Result Operation"
+    security:
+      - Bearer: []
+  # update
+  put:
+    tags:
+      - "Static"
+    description: "update a single Static"
+    produces:
+      - "application/json"
+    parameters:
+      - name: "id"
+        description: "Static's id"
+        in: "path"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Fields for the Static resource"
+        schema:
+          type: "array"
+          $ref: "#/definitions/Static"
+    responses:
+      200:
+        description: "Result Operation"
+    security:
+      - Bearer: []
+
