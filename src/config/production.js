@@ -45,6 +45,9 @@ export default {
           }, {
             model: 'Hello',
             seed: 'alway'
+          }, {
+            model: 'Static',
+            seed: 'once'
           }
         ]
       }
