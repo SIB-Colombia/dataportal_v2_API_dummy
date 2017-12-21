@@ -85,8 +85,8 @@ Herramientas:
       }
     ]
   },{
-    nombre: 'acerca_de',
-    titulo: "Acerca de",
+    nombre: 'sobre_el_portal',
+    titulo: "Sobre el portal",
     html: "",
     datos: [
       {
