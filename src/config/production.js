@@ -1,6 +1,6 @@
 // #config production
 const mode = 'production'; // development, production
-const project = 'portal-api';
+const project = 'sib-participacion-api';
 
 import path from 'path';
 
