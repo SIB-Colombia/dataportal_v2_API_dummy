@@ -3,3 +3,4 @@ dist
 nbproject
 package-lock.json
 
+.idea/
