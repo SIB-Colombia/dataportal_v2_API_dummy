@@ -4,6 +4,6 @@ import * as controller from './dataset.controller';
 const router = express.Router();
 
 router.get('/basic/:id', controller.read)
-router.get('/list/:offset/:type', controller.list)
+router.get('/list', controller.list)
 
 export default router;
