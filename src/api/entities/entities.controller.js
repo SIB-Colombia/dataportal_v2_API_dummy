@@ -1,6 +1,25 @@
 var http = require('http');
 var _ = require('lodash');
 
+export function list(req, res) {
+  var q = [];
+  var url = 'http://190.158.236.194:5000/api/provider/list';
+
+  _.map(req.query, (value, key) => { q.push(key + '=' + value) });
+  if (q.length > 0) url += '?' + _.join(q, '&')
+
+  http.get(url, (response) => {
+    var body = '';
+    response.on('data', (d) => {
+      body += d;
+    })
+
+    response.on('end', () => {
+      return res.status(200).json(JSON.parse(body))
+    })
+  })
+}
+
 export function read(req, res) {
 
   console.log(req.params.id);
@@ -132,139 +151,4 @@ export function read(req, res) {
 
   return res.status(200).json(jsonResponse)
 */
-}
-
-export function list(req, res) {
-  let qs = req.url.split('?');
-  let q = "";
-  if(qs[1]){
-    q = qs[1];
-  }
-  http.get('http://api.gbif.org/v1/organization?country=CO&offset='+req.params.offset+"&"+q, function(response) {
-   // Continuously update stream with data
-        var body = '';
-        response.on('data', function(d) {
-            body += d;
-        });
-        response.on('end', function() {
-
-            // Data reception is done, do whatever with it!
-            var r = JSON.parse(body)
-            return res.status(200).json(r)
-            //console.log(parsed.response.hits)
-            /*
-            var r = _.map(parsed.response.hits.hits, function(h){
-              return {
-                  id: h._source.provider.id,
-                  eml: {
-                    providerName: h._source.provider.name,
-                    dataset: {
-                      keywordSet: {
-                        keyword: 'providerName'
-                      },
-                      organization: {
-                        description: h._source.provider.description,
-                        city: h._source.provider.city,
-                        web_site: h._source.provider.website_url,
-                        contacts: [
-                          h._source.provider.email
-                        ]
-                      }
-                    },
-                    additionalMetadata: {
-                      metadata: {
-                        gbif: {
-                          resourceLogoUrl: h._source.resource.logo_url
-                        }
-                      }
-                    },
-                    occurrence: {
-                      count: {
-                        providerName: '-1',
-                        resourceName: '-1'
-                      }
-                    }
-                  }
-                }
-            })
-
-            console.log("Antes de retornar")
-            console.log(r)
-            */
-        });
-  })
-
-/*
-
-  const jsonResponse = [
-    {
-      id: 1,
-      eml: {
-        providerName: 'NOMBRE DEL PUBLICADOR',
-        dataset: {
-          keywordSet: {
-            keyword: 'providerName'
-          },
-          organization: {
-            description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae nobis repellat accusamus ea ipsa tempore veniam eligendi quae totam a sunt quisquam expedita sapiente, nisi error, atque, reprehenderit delectus. Animi!',
-            city: '*CIUDAD',
-            web_site: 'http://localhost/',
-            contacts: [
-              '*CONTACTO ADMINISTRATIVO',
-              '*CONTACTO TÉCNICO'
-            ]
-          }
-        },
-        additionalMetadata: {
-          metadata: {
-            gbif: {
-              resourceLogoUrl: '/logo_entidad.png'
-            }
-          }
-        },
-        occurrence: {
-          count: {
-            providerName: '7000',
-            resourceName: '3000'
-          }
-        }
-      }
-    },
-    {
-      id: 2,
-      eml: {
-        providerName: 'NOMBRE DEL PUBLICADOR',
-        dataset: {
-          keywordSet: {
-            keyword: 'providerName'
-          },
-          organization: {
-            description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum omnis at officia ratione, dolorum unde vitae beatae eaque optio itaque ipsum tenetur adipisci corporis molestiae doloribus veniam assumenda, accusamus excepturi.',
-            city: '*CIUDAD',
-            web_site: 'http://localhost/',
-            contacts: [
-              '*CONTACTO ADMINISTRATIVO',
-              '*CONTACTO TÉCNICO'
-            ]
-          }
-        },
-        additionalMetadata: {
-          metadata: {
-            gbif: {
-              resourceLogoUrl: '/logo_entidad.png'
-            }
-          }
-        },
-        occurrence: {
-          count: {
-            providerName: '1800',
-            resourceName: '8100'
-          }
-        }
-      }
-    }
-  ]
-
-  return res.status(200).json(jsonResponse)
-  */
 }
