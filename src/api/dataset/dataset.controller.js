@@ -3,80 +3,42 @@ var _ = require('lodash');
 var parseString = require('xml2js').parseString;
 
 export function list(req, res) {
-  let type=""
-  if (req.params.type && req.params.type!=="" && req.params.type!=="ALL"){
-    type='&type='+req.params.type;
-  }
-  
-  let qs = req.url.split('?');
-  let q = "";
-  if(qs[1]){
-    q = qs[1];
-  }
-  let consulta = 'http://api.gbif.org/v1/dataset/search?publishingCountry=CO&offset='+req.params.offset+type+"&"+q;
-  http.get(consulta, function(response) {
+  var q = [];
+  var url = 'http://190.158.236.194:5000/api/resource/list';
+
+  _.map(req.query, (value, key) => { q.push(key + '=' + value) });
+  if (q.length > 0) url += '?' + _.join(q, '&')
+
+  http.get(url, (response) => {
     var body = '';
-    response.on('data', function(d) {
-        body += d;
-    });
-    response.on('end', function() {
-      //console.log("La respuesta es ", body);
-      var json = JSON.parse(body);
-      //console.log(json);
-      return res.status(200).json(json);
-/*
-      var jsonResponse = [
-        {
-          "resourceId": 1,
-          "resourceName": "EOD - eBird Observation Dataset",
-          "providerName": "Cornell Lab of Ornithology",
-          description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem hic eligendi inventore labore ad aliquam sed, id, tempore eveniet natus. Necessitatibus suscipit veritatis reiciendis inventore, in sint aut porro perferendis.',
-          "collectionName": "",
-          "institutionCode": "",
-          location: 'CIUDAD',
-          "count": 275718645,
-          imageUrl: "/logo_entidad.png",
-          type: 'ocurrencce dataset'
-        },
-        {
-          "resourceId": 2,
-          "resourceName": "EOD - eBird Observation Dataset",
-          "providerName": "Cornell Lab of Ornithology",
-          description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem hic eligendi inventore labore ad aliquam sed, id, tempore eveniet natus. Necessitatibus suscipit veritatis reiciendis inventore, in sint aut porro perferendis.',
-          "collectionName": "",
-          "institutionCode": "",
-          location: 'CIUDAD',
-          "count": 275718645,
-          imageUrl: "/logo_entidad.png",
-          type: 'ocurrencce dataset'
-        }
-      ]
+    response.on('data', (d) => {
+      body += d;
+    })
 
-      return res.status(200).json(jsonResponse);
-      */
-    });
-  });
-
+    response.on('end', () => {
+      return res.status(200).json(JSON.parse(body))
+    })
+  })
 }
 
 export function read(req, res) {
 
   //console.log(req.params);
 
-  http.get('http://api.gbif.org/v1/dataset/'+req.params.id, function(response) {
+  http.get('http://api.gbif.org/v1/dataset/' + req.params.id, function (response) {
     var body = '';
-    response.on('data', function(d) {
-        body += d;
+    response.on('data', function (d) {
+      body += d;
     });
-    response.on('end', function() {
+    response.on('end', function () {
       //console.log(body);
       var json = JSON.parse(body);
-      http.get('http://api.gbif.org/v1/organization/'+json.publishingOrganizationKey, function(response2) {
+      http.get('http://api.gbif.org/v1/organization/' + json.publishingOrganizationKey, function (response2) {
         var body2 = '';
-        response2.on('data', function(d2) {
-            body2 += d2;
+        response2.on('data', function (d2) {
+          body2 += d2;
         });
-        response2.on('end', function() {
+        response2.on('end', function () {
           //console.log(body2);
           var json2 = JSON.parse(body2);
           json.publishingOrganization = json2;
