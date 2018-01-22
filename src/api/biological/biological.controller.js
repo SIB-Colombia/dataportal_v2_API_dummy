@@ -2,7 +2,7 @@ var http = require('http');
 var https = require('https');
 
 export function list(req, res) {
-  http.get('http://www.gbif.org/api/occurrence/search?publishing_country=CO&limit=5', (response) => {
+  http.get('http://190.158.236.194:5000/api/resource/search?', (response) => {
     let body = '';
     response.on('data', (d) => {
       body += d
@@ -10,7 +10,7 @@ export function list(req, res) {
     response.on('end', () => {
       const json = JSON.parse(body);
       //console.log(json)
-      return res.status(200).json({results: json});
+      return res.status(200).json(json);
     });
   });
 }
